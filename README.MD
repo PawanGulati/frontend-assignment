@@ -2,7 +2,7 @@
 
 ## Steps to run the project
 1. Clone the repo
-2. Fill proper env variables in `.env` file in client and server folder
+2. Fill proper env variables in `.env` file in client and server folder, take a look at `.env.example` for reference
 3. install all dependencies on client and server side
 4. Run both client's and server's server
 
