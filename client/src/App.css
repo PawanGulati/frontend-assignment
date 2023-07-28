@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 700px;
+    gap: 8rem
+}
+
+.container > *{
+    width: 100%;
+    justify-content: center;
+}
+
+.loader{
+    align-self: center;
+}

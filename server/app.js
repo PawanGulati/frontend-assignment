@@ -26,10 +26,47 @@ app.use(bodyParser.json());
 
 app.enable('trust proxy');
 
-app.post('/api/fetchStockData', (req, res) => {
-    // YOUR CODE GOES HERE, PLEASE DO NOT EDIT ANYTHING OUTSIDE THIS FUNCTION
+app.post('/api/fetchStockData', async (req, res) => {
+    try {
+        console.log(req.body);
+        const {
+            stockSymbol,
+            date
+        } = req.body.data
+
+        const stockDateTimeStamp = new Date(date)
+        let stockDate = ''
+        stockDate += stockDateTimeStamp.getFullYear() + '-'
+        stockDate += (stockDateTimeStamp.getMonth() + 1).toString().padStart(2, '0') + '-'
+        stockDate += stockDateTimeStamp.getDate().toString().padStart(2, '0')
+
+
+        const stockDataRes = await axios.get(`${process.env.POLYGON_API_URL}${stockSymbol}/${stockDate}`, {
+            params: {
+                'apiKey': process.env.POLYGON_API_KEY
+            }
+        })
+        
+        let stockData = {};
+
+        ['open', 'high', 'low', 'close', 'volume'].forEach( e => {
+            stockData = {
+                ...stockData,
+                [e]: stockDataRes.data[e]
+            }
+        })
+
+        return res.status(200).json({...stockData})
+
+    } catch (error) {
+        console.log(error);
+        return res.status(error?.response?.status || 404).json({
+            message: error?.response?.data?.message || error?.message || 'something went wrong'
+        })
+    }
+
     res.sendStatus(200);
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}`));

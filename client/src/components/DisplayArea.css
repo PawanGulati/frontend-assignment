@@ -1,0 +1,14 @@
+.display-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.display-container > div{
+    display: flex;
+    flex: 1;
+    /* flex-direction: row; */
+    gap: 1rem;
+    text-align: center;
+    justify-content: center;
+}
